@@ -1,14 +1,19 @@
 require('dotenv').config();
-const express = require('express'); 
-const app = express(); 
-// require('./routes');
+const express = require('express');
+const app = express();
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
 const rfs = require('rotating-file-stream');
-// const sequelize = require('./db');
-// const bodyParser = require('body-parser');
-// const cors = require('cors')
+const sequelize = require('./db');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const user = require('./controllers/usercontroller');
+const player = require('./controllers/playercontroller');
+
+app.use(cors());
+sequelize.sync();
+app.use(bodyParser.json());
 
 var logDirectory = path.join(__dirname, 'logs')
 
@@ -25,8 +30,11 @@ var accessLogStream = rfs('access.log', {
 
 app.use(morgan('combined', {stream: accessLogStream}))
 
-app.get('/', function (req, res) {
-    res.send('hello, world!')
-})
+app.use('/user', user)
+app.use('/player', player)
 
-app.listen(process.env.PORT, () => console.log(`server is listening on port ${process.env.PORT}. Logging with Morgan Logger.`));
+// app.get('/', function (req, res) {
+//     res.send('hello, world!')
+// })
+
+app.listen(process.env.PORT, () => console.log(`Server is listening on port ${process.env.PORT}. Logging with Morgan Logger.`));

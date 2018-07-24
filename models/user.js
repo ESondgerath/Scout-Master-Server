@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const user = sequelize.define('user', {
+    return sequelize.define('user', {
         username: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -28,5 +28,4 @@ module.exports = (sequelize, DataTypes) => {
         //     student.hasMany(models.jobApplied)
         // }
     })
-    return user;
 }

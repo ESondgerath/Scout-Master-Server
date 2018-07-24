@@ -15,5 +15,4 @@ sequelize.authenticate().then(
     }
 );
 
-sequelize.sync();
 module.exports = sequelize;
