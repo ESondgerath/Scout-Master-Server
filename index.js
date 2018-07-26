@@ -13,7 +13,6 @@ const player = require('./controllers/playercontroller');
 const headers = require('./middleware/headers');
 
 app.use(cors());
-sequelize.sync();
 app.use(bodyParser.json());
 app.use(headers)
 
@@ -38,5 +37,8 @@ app.use('/player', player)
 // app.get('/', function (req, res) {
 //     res.send('hello, world!')
 // })
+
+
+sequelize.sync();
 
 app.listen(process.env.PORT, () => console.log(`Server is listening on port ${process.env.PORT}. Logging with Morgan Logger.`));
