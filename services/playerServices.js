@@ -18,12 +18,12 @@ exports.getOnePlayer = function(req, id){
 
 exports.createPlayer = function(req){
     return player.create({
-        playername: req.body.player.playername,
-        position: req.body.player.position,
-        role: req.body.player.role,
-        technical: req.body.player.technical,
-        mental: req.body.player.mental,
-        physical: req.body.player.physical
+        playername: req.body.playername,
+        position: req.body.position,
+        role: req.body.role,
+        technical: req.body.technical,
+        mental: req.body.mental,
+        physical: req.body.physical
     })
 }
 
