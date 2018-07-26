@@ -1,6 +1,8 @@
 var express = require('express')
 var router = express.Router()
 var User = require('../services/userServices');
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
 
 
 router.get('/', function(req, res) {
@@ -22,8 +24,11 @@ router.post('/create', function(req, res) {
     User.createUser(req)
     .then(
         function createSuccess(user) {
+            var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24})
             res.json({
-                user: user
+                user: user,
+                message: 'created',
+                sessionToken: token
             })
         },
         function createError(err) {
@@ -32,8 +37,39 @@ router.post('/create', function(req, res) {
     )
 })
 
+// router.post('/login', function(req, res) {
+//     User.authenticateUser()
+// })
+
+router.post('/login', function(req, res){
+    User.userLogin(req)
+    .then(
+        function (user) {
+            if (user) {
+                bcrypt.compare(req.body.user.password, user.password, function (err, matches){
+                    if(matches){
+                        var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24})
+                        res.json({
+                            user: user,
+                            message: "successfully authenticated",
+                            sessionToken: token
+                        })
+                    } else {
+                        res.status(401).send({error: "Invalid Username/Password Combination, please try again.1"})
+                    }
+                })
+            } else {
+            res.status(500).send({ error: "Failed to authenticate" })
+            }
+        },
+        function (err) {
+            res.status(401).send({ error: "Invalid Username/Password Combination, please try again.2"})
+        }
+    )
+})
+
 router.put('/update/:id', function(req, res) {
-    var id = req.params.username;
+    var id = req.params.id;
 
     User.editUser(req, id)
         .then(

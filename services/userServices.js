@@ -1,5 +1,7 @@
-var sequelize = require('../db');
-const user = sequelize.import('../models/user')
+const sequelize = require('../db');
+const user = sequelize.import('../models/user');
+// const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 
 exports.getAll = function(){
@@ -11,8 +13,14 @@ exports.getAll = function(){
 exports.getOneUser = function(req, id){
     return user.findOne({
         where: {
-            id:req.params.id
+            id: req.body.id
         }
+    })
+}
+
+exports.userLogin = function(req) {
+    return user.findOne({
+        where: {username: req.body.user.username}
     })
 }
 
@@ -20,77 +28,57 @@ exports.createUser = function(req){
     return user.create({
         username: req.body.user.username,
         email: req.body.user.email,
-        // password : bcrypt.hashSync(req.body.user.password, 10)
-        password: req.body.user.password
-        // token: jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*2})
+        password: bcrypt.hashSync(req.body.user.password, 10)
     })
 }
 
-exports.authenticateUser = function(req, res){
-    return user.findOne({where: {email: req.body.user.email} } ).then(
-        function(user) {
-            if (user) {
-                bcrypt.compare(req.body.user.password, user.password, function (err, matches) {
-                    if (matches) {
-                        var sessionToken =  jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*2})
-                        return sessionToken
-                        // res.json({
-                        //     user: user.id,
-                        //     message: "Successfully Authenticated",
-                        //     sessionToken: token
-                        // })
-                    } else {
-                        //password doesn't match
-                        return err
-                        // res.json({
-                        //     success: false,
-                        //     error: 'Authentication failed, incorrect login credentials'
-                        // });
-                    }
-                })
-            } else {
-                return err
-                //account doesn't exist
-                // res.json({
-                //     success: false,
-                //     error: 'Authentication failed, incorrect login credentials'
-                // });
-            }
-        }
-    )
-    //email not found
-    res.json({
-        success: false,
-        error: 'Authentication failed, incorrect login credentials'
-    });
-}
+// exports.authenticateUser = function(req, res){
+//     return userLogin(req)
+//     .then(
+//         function(user) {
+//             if (user) {
+//                 bcrypt.compare(req.body.user.password, user.password, function (err, matches) {
+//                     if (matches) {
+//                         var token =  jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*2})
+//                         // return sessionToken
+//                         res.json({
+//                             user: user,
+//                             message: "Successfully Authenticated",
+//                             sessionToken: token
+//                         })
+//                     } else {
+//                         //password doesn't match
+//                         // return err
+//                         res.status(401).send({error: "Invalid Username/Password Combination, please try again."})
+//                     }
+//                 })
+//             } else {
+//                 // return err
+//                 res.status(500).send({ error: "Failed to Authenticate"})
+//             }
+//         }
+//     ),
+//     //username not found
+//     // res.json({
+//     //     success: false,
+//     //     error: 'Authentication failed, incorrect login credentials'
+//     // });
+//     function(err) {
+//         res.status(502).send({ error: "Invalid Username/Password Combination, please try again."})
+//     }
+// }
 
-exports.editUser = function(req, id){
+exports.editUser = function(req){
     return user.update({
         username: req.body.user.username,
         email: req.body.user.email,
-        password: req.body.user.password
+        password: bcrypt.hashSync(req.body.user.password, 10)
     },
-    {where: {username: data}})
+    {where: {id: req.body.id}})
 }
 
-/*
-router.put('/update/:beername', function(req, res) {
-    var data = req.params.beername;
-    var mybeershad = req.body.mybeershad
-    
-    AuthBeerData
-        .update({ 
-            mybeershad : mybeershad.item,
-            myrating : mybeershad.myrating,
-        },
-        {where: {beername: data}}
-        )
-});
-*/
-
-exports.deleteUser = function(req, id){
+exports.deleteUser = function(req){
     return user.destroy({
-        where:{id: req.params.id}
+        where: {id: req.body.id}
     })
 }

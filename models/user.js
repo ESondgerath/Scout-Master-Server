@@ -19,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                len: [5, 30]
-            }
+            // validate: {
+            //     len: [5, 30]
+            // }
         }
         // Model: associate = (models) => {
         //     student.hasOne(models.socialMedia)
