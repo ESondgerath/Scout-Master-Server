@@ -45,8 +45,9 @@ router.post('/login', function(req, res){
     User.userLogin(req)
     .then(
         function (user) {
+            console.log(user)
             if (user) {
-                bcrypt.compare(req.body.user.password, user.password, function (err, matches){
+                bcrypt.compare(req.body.password, user.password, function (err, matches){
                     if(matches){
                         var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24})
                         res.json({

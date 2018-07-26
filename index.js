@@ -10,10 +10,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const user = require('./controllers/usercontroller');
 const player = require('./controllers/playercontroller');
+const headers = require('./middleware/headers');
 
 app.use(cors());
 sequelize.sync();
 app.use(bodyParser.json());
+app.use(headers)
 
 var logDirectory = path.join(__dirname, 'logs')
 

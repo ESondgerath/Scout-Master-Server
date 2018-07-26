@@ -20,15 +20,15 @@ exports.getOneUser = function(req, id){
 
 exports.userLogin = function(req) {
     return user.findOne({
-        where: {username: req.body.user.username}
+        where: {username: req.body.username}
     })
 }
 
 exports.createUser = function(req){
     return user.create({
-        username: req.body.user.username,
-        email: req.body.user.email,
-        password: bcrypt.hashSync(req.body.user.password, 10)
+        username: req.body.username,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 10)
     })
 }
 
@@ -79,6 +79,6 @@ exports.editUser = function(req){
 
 exports.deleteUser = function(req){
     return user.destroy({
-        where: {id: req.body.id}
+        where: {id: req.params.id}
     })
 }
