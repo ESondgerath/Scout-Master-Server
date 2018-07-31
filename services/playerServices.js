@@ -27,16 +27,28 @@ exports.createPlayer = function(req){
     })
 }
 
-exports.editPlayer = function(req, id){
+// exports.editPlayer = function(req, id){
+//     return player.update({
+//         playername: req.body.playername,
+//         position: req.body.position,
+//         role: req.body.role,
+//         technical: req.body.technical,
+//         mental: req.body.mental,
+//         physical: req.body.physical
+//     },
+//     {where: {id: req.params.id}})
+// }
+
+exports.updatePlayer = function(req, res) {
     return player.update({
-        playername: req.body.playername,
+        playername: req.body.player.playername,
         position: req.body.player.position,
         role: req.body.player.role,
         technical: req.body.player.technical,
         mental: req.body.player.mental,
         physical: req.body.player.physical
     },
-    {where: {id: req.params.id}})
+{where: {id: req.params.id}})
 }
 
 exports.deletePlayer = function(req){
