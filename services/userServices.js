@@ -13,7 +13,7 @@ exports.getAll = function(){
 exports.getOneUser = function(req, id){
     return user.findOne({
         where: {
-            id: req.body.id
+            id: req.params.id
         }
     })
 }
@@ -74,7 +74,7 @@ exports.editUser = function(req){
         email: req.body.user.email,
         password: bcrypt.hashSync(req.body.user.password, 10)
     },
-    {where: {id: req.body.id}})
+    {where: {id: req.params.id}})
 }
 
 exports.deleteUser = function(req){

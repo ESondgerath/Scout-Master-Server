@@ -3,9 +3,9 @@ const player = sequelize.import('../models/player')
 
 
 exports.getAll = function(){
-        return player.findAll({
+    return player.findAll({
 
-        })
+    })
 }
 
 exports.getOnePlayer = function(req, id){
@@ -39,7 +39,7 @@ exports.editPlayer = function(req, id){
     {where: {id: req.params.id}})
 }
 
-exports.deletePlayer = function(req, id){
+exports.deletePlayer = function(req){
     return player.destroy({
         where:{id: req.params.id}
     })

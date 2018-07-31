@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var Player = require('../services/playerServices');
+var Search = require('../routes/search-players');
 
 
 router.get('/', function(req, res) {
@@ -16,6 +17,8 @@ router.get('/', function(req, res) {
       }
   );
 })
+
+router.get(Search)
 
 router.post('/create', function(req, res) {
 
