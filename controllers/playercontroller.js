@@ -48,7 +48,7 @@ router.put('/edit/:id', function(req, res) {
                     technical: req.body.player.technical,
                     mental: req.body.player.mental,
                     physical: req.body.player.physical
-                });            
+                });
             },
             function updateError(err){
                 res.send(500, err.message);
@@ -56,25 +56,25 @@ router.put('/edit/:id', function(req, res) {
         )
 });
 
-router.put('/edit', (req, res) => {
+// router.put('/edit', (req, res) => {
 
-    Player.updatePlayer(req, res)
-        .then(
-            function updateSuccess() {
-                res.json({
-                    playername: req.body.player.playername,
-                    position: req.body.player.position,
-                    role: req.body.player.role,
-                    technical: req.body.player.technical,
-                    mental: req.body.player.mental,
-                    physical: req.body.player.physical
-                });
-            },
-            function updateError(err) {
-                res.send(500, err.message);
-            }
-        )
-});
+//     Player.updatePlayer(req, res)
+//         .then(
+//             function updateSuccess() {
+//                 res.json({
+//                     playername: req.body.player.playername,
+//                     position: req.body.player.position,
+//                     role: req.body.player.role,
+//                     technical: req.body.player.technical,
+//                     mental: req.body.player.mental,
+//                     physical: req.body.player.physical
+//                 });
+//             },
+//             function updateError(err) {
+//                 res.send(500, err.message);
+//             }
+//         )
+// });
 
 router.get('/details/:id', function(req, res) {
     var id = req.params.id;
