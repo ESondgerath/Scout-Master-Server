@@ -76,11 +76,12 @@ router.put('/update/:id', function(req, res) {
         .then(
             function updateSuccess(user) {
                 res.json({
-                    user: user
+                    username: req.body.user.username,
+                    email: req.body.user.email
                 });            
             },
             function updateError(err){
-                res.send(500, err.message);
+                res.send(501, err.message);
             }
         )
 });

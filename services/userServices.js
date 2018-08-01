@@ -68,11 +68,11 @@ exports.createUser = function(req){
 //     }
 // }
 
-exports.editUser = function(req){
+exports.editUser = function(req, res){
     return user.update({
-        username: req.body.user.username,
-        email: req.body.user.email,
-        password: bcrypt.hashSync(req.body.user.password, 10)
+        username: req.body.username,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 10)
     },
     {where: {id: req.params.id}})
 }

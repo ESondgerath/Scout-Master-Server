@@ -1,5 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('player', {
+        // id: {
+        //     type: DataTypes.INTEGER,
+        //     // allowNull: false,
+        //     primaryKey: true
+        // },
         playername: {
             type: DataTypes.STRING,
             allowNull: false,
